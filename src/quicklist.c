@@ -34,6 +34,7 @@
 #include "ziplist.h"
 #include "util.h" /* for ll2string */
 #include "lzf.h"
+#include "assert.h"
 
 #if defined(REDIS_TEST) || defined(REDIS_TEST_VERBOSE)
 #include <stdio.h> /* for printf (debug printing), snprintf (genstr) */
@@ -702,6 +703,7 @@ REDIS_STATIC quicklistNode *_quicklistZiplistMerge(quicklist *quicklist,
     if ((ziplistMerge(&a->zl, &b->zl))) {
         /* We merged ziplists! Now remove the unused quicklistNode. */
         quicklistNode *keep = NULL, *nokeep = NULL;
+        assert(a != NULL);
         if (!a->zl) {
             nokeep = a;
             keep = b;
